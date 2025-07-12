@@ -4,19 +4,21 @@ import HeroSection from "./components/MainLayout";
 import Footer from "./components/Footer";
 import NotesPage from "./components/pages/NotesPage";
 import AboutUsPage from "./components/pages/About";
-import UserRegistration from "./components/pages/UserRegistration"; // Adjust path as needed
-import LoginPage from "./components/pages/LoginPage"; // Adjust path as needed
-import UserProfile from "./components/pages/UserProfile"; // Adjust path as needed
-import ReactNotes from "./components/subjects/ReactNotes" // Uncommented this line
+import UserRegistration from "./components/pages/UserRegistration"; 
+import LoginPage from "./components/pages/LoginPage"; 
+import UserProfile from "./components/pages/UserProfile"; 
+import ReactNotes from "./components/subjects/ReactNotes" 
 import HTML from "./components/subjects/HTML";
 import CSS from "./components/subjects/CSS";
 import SQL from "./components/subjects/SQL";
 import JS from "./components/subjects/JS";
+import Git from "./components/subjects/Git"
+import Docker from "./components/subjects/Docker";
+
 
 function App() {
   return (
-    <>
-      
+    <>  
       <Routes>
         {/* Home route */}
         <Route
@@ -135,6 +137,27 @@ function App() {
           element={
             <>
               <JS/>
+            </>
+          }
+  />
+
+
+{/*  Git/GitHub specific route */}
+<Route
+          path="/notes/Git"
+          element={
+            <>
+              <Git/>
+            </>
+          }
+  />
+
+{/*  Docker specific route */}
+<Route
+          path="/notes/Docker"
+          element={
+            <>
+              <Docker/>
             </>
           }
   />
