@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CountUp from 'react-countup';
 
 const NotesPage = () => {
-  // Enhanced notes data with more details
+  // Enhanced notes data with more details and MERN Stack course
   const originalNotes = [
     {
       id: 1,
@@ -24,7 +24,7 @@ const NotesPage = () => {
       description: "Master CSS selectors, Flexbox, Grid, animations and responsive design techniques with practical examples.",
       category: "CSS",
       image: "https://cdn-icons-png.flaticon.com/512/732/732190.png",
-      level: "Intermediate",
+      level: "Beginner",
       duration: "3h 30m",
       lastUpdated: "2023-06-20",
       popular: true,
@@ -62,7 +62,7 @@ const NotesPage = () => {
       description: "Introduction to Python programming covering syntax, data structures, functions, and basic algorithms.",
       category: "Python",
       image: "https://cdn-icons-png.flaticon.com/512/5968/5968350.png",
-      level: "Beginner",
+      level: "Advanced",
       duration: "3h",
       lastUpdated: "2023-03-25",
       accentColor: "#3776AB", // Python Blue
@@ -74,7 +74,7 @@ const NotesPage = () => {
       description: "Learn core C programming concepts including pointers, memory management, and data structures.",
       category: "C",
       image: "https://cdn-icons-png.flaticon.com/512/6132/6132222.png",
-      level: "Intermediate",
+      level: "Advanced",
       duration: "4h 15m",
       lastUpdated: "2023-06-05",
       accentColor: "#A8B9CC", // C Gray
@@ -98,7 +98,7 @@ const NotesPage = () => {
       description: "Complete guide to database management with SQL covering queries, joins, indexes, and optimization.",
       category: "SQL",
       image: "https://cdn-icons-png.flaticon.com/512/4492/4492311.png",
-      level: "Intermediate",
+      level: "Advanced",
       duration: "3h 45m",
       lastUpdated: "2023-05-30",
       accentColor: "#00758F", // SQL Blue
@@ -127,7 +127,7 @@ const NotesPage = () => {
       duration: "4h 30m",
       lastUpdated: "2023-07-05",
       accentColor: "#339933", // Node Green
-      course: "Full Stack JavaScript"
+      course: "Backend Development"
     },
     {
       id: 11,
@@ -135,11 +135,11 @@ const NotesPage = () => {
       description: "Master version control with Git and collaborative workflows using GitHub and Git commands.",
       category: "Git",
       image: "https://cdn-icons-png.flaticon.com/512/4494/4494748.png",
-      level: "Beginner",
+      level: "Intermediate",
       duration: "2h 15m",
       lastUpdated: "2023-04-22",
       accentColor: "#F05032", // Git Orange
-      course: "Developer Tools"
+      course: "DevOps Fundamentals"
     },
     {
       id: 12,
@@ -152,6 +152,56 @@ const NotesPage = () => {
       lastUpdated: "2023-06-10",
       accentColor: "#2496ED", // Docker Blue
       course: "DevOps Fundamentals"
+    },
+    {
+      id: 13,
+      title: "MongoDB Essentials",
+      description: "Learn NoSQL database concepts with MongoDB including CRUD operations, aggregation, and schema design.",
+      category: "MongoDB",
+      image: "https://cdn-icons-png.flaticon.com/512/5968/5968342.png",
+      level: "Intermediate",
+      duration: "3h 20m",
+      lastUpdated: "2023-07-10",
+      popular: true,
+      accentColor: "#47A248", // MongoDB Green
+      course: "MERN Stack (Full Stack)"
+    },
+    {
+      id: 14,
+      title: "Express.js Framework",
+      description: "Build web applications with Express.js middleware, routing, error handling, and REST API development.",
+      category: "Express",
+      image: "https://cdn.iconscout.com/icon/free/png-256/free-express-9-1175170.png",
+      level: "Intermediate",
+      duration: "3h 45m",
+      lastUpdated: "2023-07-08",
+      popular: true,
+      accentColor: "#000000", // Express Black
+      course: "MERN Stack (Full Stack)"
+    },
+    {
+      id: 15,
+      title: "REST API Design",
+      description: "Learn RESTful API principles, best practices, authentication, and documentation with OpenAPI.",
+      category: "API",
+      image: "https://cdn-icons-png.flaticon.com/512/2165/2165004.png",
+      level: "Intermediate",
+      duration: "4h",
+      lastUpdated: "2023-06-28",
+      accentColor: "#FF6B6B", // API Red
+      course: "Backend Development"
+    },
+    {
+      id: 16,
+      title: "Authentication & Security",
+      description: "Implement secure authentication with JWT, OAuth, sessions, and learn security best practices.",
+      category: "Security",
+      image: "https://cdn-icons-png.flaticon.com/512/6331/6331375.png",
+      level: "Advanced",
+      duration: "4h 30m",
+      lastUpdated: "2023-07-03",
+      accentColor: "#4E9F3D", // Security Green
+      course: "Backend Development"
     }
   ];
 
@@ -163,6 +213,7 @@ const NotesPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sortOption, setSortOption] = useState("default");
   const [isHovering, setIsHovering] = useState(null);
+  const [activeCourseFilter, setActiveCourseFilter] = useState(null);
 
   // Get unique categories, courses, and levels for filters
   const categories = ["All", ...new Set(originalNotes.map(note => note.category))];
@@ -184,9 +235,19 @@ const NotesPage = () => {
     
     // Apply course filter
     if (selectedCourse !== "All") {
-      filteredNotes = filteredNotes.filter(note => 
-        note.course === selectedCourse
-      );
+      filteredNotes = filteredNotes.filter(note => {
+        if (selectedCourse === "Frontend Mastery") {
+          return ["HTML", "CSS", "JS", "React", "TypeScript"].includes(note.category);
+        } else if (selectedCourse === "DevOps Fundamentals") {
+          return ["Git", "Docker"].includes(note.category);
+        } else if (selectedCourse === "MERN Stack (Full Stack)") {
+          return ["HTML", "CSS", "JS", "React", "Node.js", "MongoDB", "Express"].includes(note.category);
+        } else if (selectedCourse === "Backend Development") {
+          return ["Node.js", "Express", "API", "Security", "MongoDB"].includes(note.category);
+        } else {
+          return note.course === selectedCourse;
+        }
+      });
     }
     
     // Apply level filter
@@ -260,9 +321,15 @@ const NotesPage = () => {
     setSelectedCourse("All");
     setSelectedLevel("All");
     setSortOption("default");
+    setActiveCourseFilter(null);
   };
 
-  // Function to get a random gradient
+  const handleCourseFilterClick = (course) => {
+    setSelectedCourse(course);
+    setActiveCourseFilter(course);
+    setSelectedCategory("All"); // Reset category filter when selecting a course
+  };
+
   const getRandomGradient = () => {
     const gradients = [
       "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500",
@@ -279,6 +346,19 @@ const NotesPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <style>{`
+        @keyframes float-slow {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes float-medium {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-15px) rotate(3deg); }
+        }
+        .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+        .animate-float-medium { animation: float-medium 6s ease-in-out infinite; }
+      `}</style>
+      
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 py-12 px-6 shadow-xl">
@@ -350,11 +430,38 @@ const NotesPage = () => {
                     <select
                       id="course-filter"
                       value={selectedCourse}
-                      onChange={(e) => setSelectedCourse(e.target.value)}
+                      onChange={(e) => {
+                        setSelectedCourse(e.target.value);
+                        setActiveCourseFilter(e.target.value === "All" ? null : e.target.value);
+                      }}
                       className="block appearance-none w-full px-4 py-2 pr-8 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent shadow-sm"
                     >
                       {courses.map((course) => (
                         <option key={course} value={course}>{course}</option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 pt-5 text-gray-700">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Level Filter */}
+                <div className="relative">
+                  <label htmlFor="level-filter" className="block text-xs font-medium text-gray-500 mb-1">
+                    Level
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="level-filter"
+                      value={selectedLevel}
+                      onChange={(e) => setSelectedLevel(e.target.value)}
+                      className="block appearance-none w-full px-4 py-2 pr-8 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent shadow-sm"
+                    >
+                      {levels.map((level) => (
+                        <option key={level} value={level}>{level}</option>
                       ))}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 pt-5 text-gray-700">
@@ -424,7 +531,10 @@ const NotesPage = () => {
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 shadow-sm">
                   Course: {selectedCourse}
                   <button 
-                    onClick={() => setSelectedCourse("All")}
+                    onClick={() => {
+                      setSelectedCourse("All");
+                      setActiveCourseFilter(null);
+                    }}
                     className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-600"
                   >
                     ×
@@ -472,6 +582,26 @@ const NotesPage = () => {
               )}
             </div>
           )}
+        </div>
+
+        {/* Course Quick Filters */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Browse by Course</h2>
+          <div className="flex flex-wrap gap-3">
+            {courses.filter(course => course !== "All").map((course) => (
+              <button
+                key={course}
+                onClick={() => handleCourseFilterClick(course)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-sm ${
+                  activeCourseFilter === course 
+                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                }`}
+              >
+                {course}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Stats Bar */}
@@ -584,12 +714,17 @@ const NotesPage = () => {
                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                           note.category === 'HTML' ? 'bg-orange-100 text-orange-800' :
                           note.category === 'CSS' ? 'bg-blue-100 text-blue-800' :
-                          note.category === 'JavaScript' ? 'bg-yellow-100 text-yellow-800' :
+                          note.category === 'JS' ? 'bg-yellow-100 text-yellow-800' :
                           note.category === 'React' ? 'bg-sky-100 text-sky-800' :
                           note.category === 'Python' ? 'bg-indigo-100 text-indigo-800' :
                           note.category === 'C++' ? 'bg-cyan-100 text-cyan-800' :
                           note.category === 'TypeScript' ? 'bg-blue-100 text-blue-800' :
                           note.category === 'Node.js' ? 'bg-green-100 text-green-800' :
+                          note.category === 'MongoDB' ? 'bg-green-100 text-green-800' :
+                          note.category === 'Express' ? 'bg-gray-100 text-gray-800' :
+                          note.category === 'API' ? 'bg-red-100 text-red-800' :
+                          note.category === 'Security' ? 'bg-green-100 text-green-800' :
+                          note.category === 'MERN' ? 'bg-green-100 text-green-800' :
                           'bg-violet-100 text-violet-800'
                         }`}>
                           {note.category}
@@ -662,93 +797,92 @@ const NotesPage = () => {
           </>
         )}
         
-        
         {/* Enhanced Free Newsletter CTA */}
-{!isLoading && notes.length > 0 && (
-  <div className="mt-16 relative group">
-    {/* Floating decorative elements */}
-    <div className="absolute -top-10 -left-10 w-24 h-24 rounded-full bg-indigo-400 opacity-20 filter blur-3xl animate-float-slow"></div>
-    <div className="absolute -bottom-8 -right-8 w-20 h-20 rounded-full bg-pink-400 opacity-20 filter blur-3xl animate-float-medium"></div>
-    
-    {/* Main CTA Container */}
-    <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-      {/* Gradient background with animated shine */}
-      <div className="absolute inset-0 bg-gradient-to-r from-violet-700 via-indigo-700 to-purple-700 transition-all duration-500">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5 opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
-      </div>
-      
-      {/* Content */}
-      <div className="relative z-10 p-8 md:p-12 text-center">
-        {/* Icon */}
-        <div className="mx-auto mb-6 w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-inner border border-white/10">
-          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-          </svg>
-        </div>
-        
-        {/* Heading */}
-        <h3 className="text-3xl font-bold text-white mb-3">
-          Free Weekly Coding Resources
-        </h3>
-        
-        {/* Description with fancy counter animation */}
-        <p className="text-violet-100/90 text-lg mb-6 max-w-2xl mx-auto">
-          Join <span className="font-mono font-bold text-white inline-block min-w-[3ch]">
-            <CountUp end={originalNotes.length} duration={2} delay={0.5} />
-          </span>+ developers who get free weekly updates with:
-        </p>
-        
-        {/* Value propositions with hover effects */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
-          <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] hover:shadow-lg group/card">
-            <div className="w-10 h-10 bg-violet-500/20 rounded-lg flex items-center justify-center mb-3 mx-auto transition-all duration-300 group-hover/card:bg-violet-500/30 group-hover/card:scale-110">
-              <svg className="w-5 h-5 text-white transition-all duration-300 group-hover/card:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
+        {!isLoading && notes.length > 0 && (
+          <div className="mt-16 relative group">
+            {/* Floating decorative elements */}
+            <div className="absolute -top-10 -left-10 w-24 h-24 rounded-full bg-indigo-400 opacity-20 filter blur-3xl animate-float-slow"></div>
+            <div className="absolute -bottom-8 -right-8 w-20 h-20 rounded-full bg-pink-400 opacity-20 filter blur-3xl animate-float-medium"></div>
+            
+            {/* Main CTA Container */}
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              {/* Gradient background with animated shine */}
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-700 via-indigo-700 to-purple-700 transition-all duration-500">
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5 opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+              </div>
+              
+              {/* Content */}
+              <div className="relative z-10 p-8 md:p-12 text-center">
+                {/* Icon */}
+                <div className="mx-auto mb-6 w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-inner border border-white/10">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                  </svg>
+                </div>
+                
+                {/* Heading */}
+                <h3 className="text-3xl font-bold text-white mb-3">
+                  Free Weekly Coding Resources
+                </h3>
+                
+                {/* Description with fancy counter animation */}
+                <p className="text-violet-100/90 text-lg mb-6 max-w-2xl mx-auto">
+                  Join <span className="font-mono font-bold text-white inline-block min-w-[3ch]">
+                    <CountUp end={originalNotes.length} duration={2} delay={0.5} />
+                  </span>+ developers who get free weekly updates with:
+                </p>
+                
+                {/* Value propositions with hover effects */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
+                  <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] hover:shadow-lg group/card">
+                    <div className="w-10 h-10 bg-violet-500/20 rounded-lg flex items-center justify-center mb-3 mx-auto transition-all duration-300 group-hover/card:bg-violet-500/30 group-hover/card:scale-110">
+                      <svg className="w-5 h-5 text-white transition-all duration-300 group-hover/card:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                    </div>
+                    <h4 className="font-medium text-white transition-all duration-300 group-hover/card:text-violet-300">Latest Tutorials</h4>
+                    <p className="text-violet-100/80 text-sm mt-1 transition-all duration-300 group-hover/card:text-violet-200">Fresh content weekly</p>
+                  </div>
+                  
+                  <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] hover:shadow-lg group/card">
+                    <div className="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center mb-3 mx-auto transition-all duration-300 group-hover/card:bg-pink-500/30 group-hover/card:scale-110">
+                      <svg className="w-5 h-5 text-white transition-all duration-300 group-hover/card:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <h4 className="font-medium text-white transition-all duration-300 group-hover/card:text-pink-300">Pro Tips</h4>
+                    <p className="text-violet-100/80 text-sm mt-1 transition-all duration-300 group-hover/card:text-pink-200">Expert advice</p>
+                  </div>
+                  
+                  <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] hover:shadow-lg group/card">
+                    <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3 mx-auto transition-all duration-300 group-hover/card:bg-blue-500/30 group-hover/card:scale-110">
+                      <svg className="w-5 h-5 text-white transition-all duration-300 group-hover/card:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                    <h4 className="font-medium text-white transition-all duration-300 group-hover/card:text-blue-300">Free Resources</h4>
+                    <p className="text-violet-100/80 text-sm mt-1 transition-all duration-300 group-hover/card:text-blue-200">Tools & templates</p>
+                  </div>
+                </div>
+                
+                {/* Email collection (optional) */}
+                <div className="max-w-md mx-auto">
+                  <div className="flex items-center justify-center gap-2 text-violet-200/80">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>No subscription needed - just visit weekly!</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative corner elements */}
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-white/10"></div>
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-white/10"></div>
             </div>
-            <h4 className="font-medium text-white transition-all duration-300 group-hover/card:text-violet-300">Latest Tutorials</h4>
-            <p className="text-violet-100/80 text-sm mt-1 transition-all duration-300 group-hover/card:text-violet-200">Fresh content weekly</p>
           </div>
-          
-          <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] hover:shadow-lg group/card">
-            <div className="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center mb-3 mx-auto transition-all duration-300 group-hover/card:bg-pink-500/30 group-hover/card:scale-110">
-              <svg className="w-5 h-5 text-white transition-all duration-300 group-hover/card:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h4 className="font-medium text-white transition-all duration-300 group-hover/card:text-pink-300">Pro Tips</h4>
-            <p className="text-violet-100/80 text-sm mt-1 transition-all duration-300 group-hover/card:text-pink-200">Expert advice</p>
-          </div>
-          
-          <div className="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-[1.03] hover:shadow-lg group/card">
-            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3 mx-auto transition-all duration-300 group-hover/card:bg-blue-500/30 group-hover/card:scale-110">
-              <svg className="w-5 h-5 text-white transition-all duration-300 group-hover/card:scale-125" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <h4 className="font-medium text-white transition-all duration-300 group-hover/card:text-blue-300">Free Resources</h4>
-            <p className="text-violet-100/80 text-sm mt-1 transition-all duration-300 group-hover/card:text-blue-200">Tools & templates</p>
-          </div>
-        </div>
-        
-        {/* Email collection (optional) */}
-        <div className="max-w-md mx-auto">
-          <div className="flex items-center justify-center gap-2 text-violet-200/80">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            <span>No subscription needed - just visit weekly!</span>
-          </div>
-        </div>
-      </div>
-      
-      {/* Decorative corner elements */}
-      <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-white/10"></div>
-      <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-white/10"></div>
-    </div>
-  </div>
-)}
+        )}
       </div>
     </div>
   );

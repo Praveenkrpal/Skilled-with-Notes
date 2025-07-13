@@ -3,13 +3,14 @@ import { motion } from 'framer-motion';
 import { FiGithub, FiTwitter, FiLinkedin, FiMail, FiHeart, FiRss, FiCode } from 'react-icons/fi';
 import { FaReact, FaNodeJs } from 'react-icons/fa';
 import { SiTailwindcss, SiNextdotjs } from 'react-icons/si';
+import { Link, NavLink } from 'react-router-dom';
 
 const Footer = () => {
   const socialLinks = [
-    { icon: <FiGithub size={16} />, name: "GitHub", url: "#", color: "hover:bg-gray-800 hover:text-white" },
-    { icon: <FiTwitter size={16} />, name: "Twitter", url: "#", color: "hover:bg-blue-400 hover:text-white" },
-    { icon: <FiLinkedin size={16} />, name: "LinkedIn", url: "#", color: "hover:bg-blue-700 hover:text-white" },
-    { icon: <FiMail size={16} />, name: "Email", url: "#", color: "hover:bg-red-500 hover:text-white" },
+    { icon: <FiGithub size={16} />, name: "GitHub", url: "https://github.com", color: "hover:bg-gray-800 hover:text-white" },
+    { icon: <FiTwitter size={16} />, name: "Twitter", url: "https://twitter.com", color: "hover:bg-blue-400 hover:text-white" },
+    { icon: <FiLinkedin size={16} />, name: "LinkedIn", url: "https://linkedin.com", color: "hover:bg-blue-700 hover:text-white" },
+    { icon: <FiMail size={16} />, name: "Email", url: "mailto:contact@example.com", color: "hover:bg-red-500 hover:text-white" },
   ];
 
   const techStack = [
@@ -19,7 +20,13 @@ const Footer = () => {
     { icon: <FaNodeJs className="text-green-500" size={14} />, name: "Node.js" }
   ];
 
-  const navLinks = ['Home', 'Features', 'Pricing', 'About', 'Contact', 'Blog', 'Docs'];
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Notes', path: '/notes' },
+    { name: 'About', path: '/about' },
+    { name: 'Blog', path: '/about' },
+    { name: 'Contect', path: '/about' }
+  ];
 
   return (
     <footer className="bg-gradient-to-br from-violet-700 to-indigo-800 text-white py-8 relative overflow-hidden">
@@ -102,7 +109,7 @@ const Footer = () => {
               <div className="flex bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 text-xs space-x-2 items-center border border-white/10">
                 <FiCode className="text-violet-200" size={12} />
                 {techStack.map((tech, i) => (
-                  <span key={tech.name} className="flex items-center space-x-1">
+                  <span key={`${tech.name}-${i}`} className="flex items-center space-x-1">
                     {tech.icon}
                     <span className="text-xs">{tech.name}</span>
                     {i < techStack.length - 1 && <span className="mx-1 text-white/30">•</span>}
@@ -132,6 +139,8 @@ const Footer = () => {
               >
                 <a
                   href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white transition-all ${social.color} hover:shadow-lg group border border-white/10`}
                   aria-label={social.name}
                 >
@@ -154,21 +163,29 @@ const Footer = () => {
             viewport={{ once: true, margin: "-50px" }}
           >
             {navLinks.map((item, i) => (
-              <motion.a
-                key={item}
-                href="#"
-                className="relative text-violet-200 hover:text-white transition-colors group px-1"
-                whileHover={{ 
-                  y: [0, -2, 0],
-                  transition: { duration: 0.6, repeat: Infinity }
-                }}
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: i * 0.07, type: "spring", stiffness: 300 }}
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => 
+                  `relative ${isActive ? 'text-white' : 'text-violet-200'} hover:text-white transition-colors group px-1`
+                }
               >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full"></span>
-              </motion.a>
+                {({ isActive }) => (
+                  <motion.span
+                    className="block"
+                    whileHover={{ 
+                      y: [0, -2, 0],
+                      transition: { duration: 0.6, repeat: Infinity }
+                    }}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.07, type: "spring", stiffness: 300 }}
+                  >
+                    {item.name}
+                    <span className={`absolute -bottom-1 left-0 ${isActive ? 'w-full' : 'w-0'} h-px bg-white transition-all duration-300 group-hover:w-full`}></span>
+                  </motion.span>
+                )}
+              </NavLink>
             ))}
           </motion.nav>
 
@@ -189,17 +206,17 @@ const Footer = () => {
               >
                 <FiHeart className="text-pink-400" size={14} />
               </motion.span>
-              <span>by Skilled-with-Notes Team</span>
+              <span>by Sawariya Group</span>
             </div>
             
             <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 mb-2">
               <span>© {new Date().getFullYear()} Skilled-with-Notes</span>
               <span className="w-1 h-1 rounded-full bg-violet-400/50"></span>
-              <a href="#" className="hover:text-white hover:underline transition-colors">Privacy Policy</a>
+              <Link to="/privacy" className="hover:text-white hover:underline transition-colors">Privacy Policy</Link>
               <span className="w-1 h-1 rounded-full bg-violet-400/50"></span>
-              <a href="#" className="hover:text-white hover:underline transition-colors">Terms</a>
+              <Link to="/terms" className="hover:text-white hover:underline transition-colors">Terms</Link>
               <span className="w-1 h-1 rounded-full bg-violet-400/50"></span>
-              <a href="#" className="hover:text-white hover:underline transition-colors">Cookies</a>
+              <Link to="/cookies" className="hover:text-white hover:underline transition-colors">Cookies</Link>
             </div>
             
             <motion.div 

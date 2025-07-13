@@ -24,10 +24,10 @@ const AboutUsPage = () => {
       bio: "Creates intuitive user experiences with focus on accessibility and design systems. Believes in the power of clean code and thoughtful design.",
       image: "./images/Lakshay image.jpg",
       social: {
-        github: "#",
-        linkedin: "#",
+        github: "https://github.com/Lakshay-Sawariya",
+        linkedin: "https://www.linkedin.com/in/lakshay-sawariya-541027355/",
         twitter: "#",
-        email: "#",
+        email: "sawariya2585@gmail.com",
       },
     },
   ];
