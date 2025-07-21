@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { UseUser } from "../../context/UserContext";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,16 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [rememberMe, setRememberMe] = useState(false);
+  const [isAlreadyLoggedIn, setIsAlreadyLoggedIn] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const { user, loginUser } = UseUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      setIsAlreadyLoggedIn(true);
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,42 +48,119 @@ const LoginPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle login logic here
-      console.log("Login data:", formData, "Remember me:", rememberMe);
-      alert("Login successful!");
+      const currentDate = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      const authenticatedUser = {
+        name: formData.email.split("@")[0],
+        email: formData.email,
+        avatar: `https://api.dicebear.com/7.x/adventurer/svg?seed=${formData.email}`,
+        phone: "",
+        bio: "",
+        joinedDate: currentDate,
+      };
+
+      loginUser(authenticatedUser);
+      setLoginSuccess(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
   };
 
+  const handleSocialLogin = (provider) => {
+    const currentDate = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+
+    const socialUser = {
+      name: provider === "github" ? "GitHub User" : "Google User",
+      email: `${provider}@example.com`,
+      avatar: `https://api.dicebear.com/7.x/adventurer/svg?seed=${provider}`,
+      phone: "",
+      bio: `Signed in with ${provider}`,
+      joinedDate: currentDate,
+    };
+
+    loginUser(socialUser);
+    setLoginSuccess(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+  };
+
+  if (isAlreadyLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-xs sm:max-w-md bg-white rounded-xl shadow-md p-6 text-center">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3">
+            You're already logged in!
+          </h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Member since: {user?.joinedDate}
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-2">
+            <Link
+              to="/"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Go to Home
+            </Link>
+            <Link
+              to="/profile"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 border border-blue-600 text-blue-600 text-sm rounded-lg hover:bg-blue-50 transition-colors"
+            >
+              View Profile
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row">
-        {/* Left Side - Graphic Image */}
-        <div className="md:w-2/5 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-6">
-          <img
-            src="https://i.pinimg.com/originals/78/5a/1b/785a1b9c359640da6bc9cfe3670b42ba.png"
-            alt="Person logging in"
-            className="w-full h-auto object-contain"
-          />
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-4xl bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row mx-2">
+        {/* Left Side - Graphic Image (Hidden on mobile) */}
+        <div className="hidden md:block md:w-2/5 bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+          <div className="h-full flex items-center justify-center">
+            <img
+              src="https://i.pinimg.com/originals/78/5a/1b/785a1b9c359640da6bc9cfe3670b42ba.png"
+              alt="Person logging in"
+              className="w-full h-auto max-h-64 object-contain"
+            />
+          </div>
         </div>
 
         {/* Right Side - Login Form */}
-        <div className="md:w-3/5 p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <div className="w-full md:w-3/5 p-4 sm:p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
             Welcome Back
           </h2>
-          <p className="text-gray-600 mb-6 text-sm">
+          <p className="text-xs sm:text-sm text-gray-600 mb-4">
             Sign in to access your account
           </p>
+
+          {loginSuccess && (
+            <div className="mb-3 p-2 bg-green-100 text-green-700 text-xs sm:text-sm rounded-lg">
+              Login successful! Redirecting you to the home page...
+            </div>
+          )}
 
           <form onSubmit={handleSubmit}>
             {/* Email Field */}
             <div className="mb-3">
               <label
                 htmlFor="email"
-                className="block text-gray-700 mb-1 text-sm"
+                className="block text-xs sm:text-sm text-gray-700 mb-1"
               >
                 Email Address
               </label>
@@ -82,13 +170,14 @@ const LoginPage = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 text-sm ${
+                className={`w-full px-3 py-2 text-xs sm:text-sm border rounded-lg focus:outline-none focus:ring-1 ${
                   errors.email
                     ? "border-red-500 focus:ring-red-200"
                     : "border-gray-300 focus:ring-blue-200"
                 }`}
                 placeholder="Enter your email"
                 autoComplete="username"
+                disabled={loginSuccess}
               />
               {errors.email && (
                 <p className="text-red-500 text-xs mt-1">{errors.email}</p>
@@ -99,7 +188,7 @@ const LoginPage = () => {
             <div className="mb-3">
               <label
                 htmlFor="password"
-                className="block text-gray-700 mb-1 text-sm"
+                className="block text-xs sm:text-sm text-gray-700 mb-1"
               >
                 Password
               </label>
@@ -110,23 +199,25 @@ const LoginPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 text-sm ${
+                  className={`w-full px-3 py-2 text-xs sm:text-sm border rounded-lg focus:outline-none focus:ring-1 ${
                     errors.password
                       ? "border-red-500 focus:ring-red-200"
                       : "border-gray-300 focus:ring-blue-200"
                   }`}
                   placeholder="Enter your password"
                   autoComplete="current-password"
+                  disabled={loginSuccess}
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
+                  disabled={loginSuccess}
                 >
                   {showPassword ? (
-                    <FaEyeSlash size={14} />
+                    <FaEyeSlash className="w-4 h-4" />
                   ) : (
-                    <FaEye size={14} />
+                    <FaEye className="w-4 h-4" />
                   )}
                 </button>
               </div>
@@ -144,10 +235,11 @@ const LoginPage = () => {
                   checked={rememberMe}
                   onChange={() => setRememberMe(!rememberMe)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  disabled={loginSuccess}
                 />
                 <label
                   htmlFor="rememberMe"
-                  className="ml-2 text-gray-700 text-sm"
+                  className="ml-2 text-xs sm:text-sm text-gray-700"
                 >
                   Remember me
                 </label>
@@ -163,9 +255,10 @@ const LoginPage = () => {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 text-sm mb-3"
+              className="w-full py-2 px-4 bg-blue-600 text-white text-sm rounded-lg font-medium hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 mb-3"
+              disabled={loginSuccess}
             >
-              Sign in
+              {loginSuccess ? "Success!" : "Sign in"}
             </button>
 
             {/* Social Login Options */}
@@ -174,17 +267,19 @@ const LoginPage = () => {
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
-                <div className="relative bg-white px-4 text-xs text-gray-500">
+                <div className="relative bg-white px-2 text-xs text-gray-500">
                   Or continue with
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center py-1.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  onClick={() => handleSocialLogin("github")}
+                  className="w-full flex justify-center items-center py-2 px-2 sm:px-4 border border-gray-300 rounded-md shadow-sm bg-white text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  disabled={loginSuccess}
                 >
                   <svg
-                    className="w-4 h-4"
+                    className="w-4 h-4 mr-2"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"
@@ -195,13 +290,16 @@ const LoginPage = () => {
                       clipRule="evenodd"
                     />
                   </svg>
+                  GitHub
                 </button>
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center py-1.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  onClick={() => handleSocialLogin("google")}
+                  className="w-full flex justify-center items-center py-2 px-2 sm:px-4 border border-gray-300 rounded-md shadow-sm bg-white text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  disabled={loginSuccess}
                 >
                   <svg
-                    className="w-4 h-4"
+                    className="w-4 h-4 mr-2"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     aria-hidden="true"
@@ -224,16 +322,17 @@ const LoginPage = () => {
                     />
                     <path d="M1 1h22v22H1z" fill="none" />
                   </svg>
+                  Google
                 </button>
               </div>
             </div>
 
             {/* Create Account Link */}
             <div className="text-center">
-              <p className="text-gray-600 text-sm">
+              <p className="text-xs sm:text-sm text-gray-600">
                 Don't have an account?{" "}
                 <Link to="/register" className="text-blue-600 hover:underline">
-                  register
+                  Register
                 </Link>
               </p>
             </div>

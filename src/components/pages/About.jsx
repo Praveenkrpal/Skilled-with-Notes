@@ -1,7 +1,14 @@
-
-
 import React from "react";
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
+  FaEnvelope,
+  FaLightbulb,
+  FaBookOpen,
+  FaRocket,
+} from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const AboutUsPage = () => {
   const teamMembers = [
@@ -9,7 +16,7 @@ const AboutUsPage = () => {
       id: 1,
       name: "Praveen Kumar",
       role: "Lead Frontend Developer",
-      bio: "React specialist crafting beautiful interfaces with Tailwind CSS and modern web technologies.",
+      bio: "React specialist crafting beautiful interfaces with Tailwind CSS and modern web technologies. Passionate about creating seamless user experiences that delight and engage.",
       image: "./images/praveen image.jpg",
       social: {
         github: "https://github.com/Praveenkrpal",
@@ -22,182 +29,262 @@ const AboutUsPage = () => {
       id: 2,
       name: "Lakshay Sawariya",
       role: "Frontend Developer",
-      bio: "Creates intuitive user experiences with focus on accessibility and design systems.",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      bio: "Creates intuitive user experiences with focus on accessibility and design systems. Believes in the power of clean code and thoughtful design.",
+      image: "./images/Lakshay image.jpg",
       social: {
-        github: "#",
-        linkedin: "#",
+        github: "https://github.com/Lakshay-Sawariya",
+        linkedin: "https://www.linkedin.com/in/lakshay-sawariya-541027355/",
         twitter: "#",
-        email: "#",
+        email: "sawariya2585@gmail.com",
       },
     },
   ];
 
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-violet-700 mb-2">
-            About Skilled-with-Notes
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl font-bold text-violet-800 mb-3">
+            About{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-blue-500">
+              Skilled-with-Notes
+            </span>
           </h1>
-          <p className="text-gray-600">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             The modern note-taking platform built by developers, for learners
+            who want to organize knowledge effortlessly.
           </p>
-        </div>
+        </motion.div>
 
         {/* Our Story Section */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8 border border-gray-100">
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="bg-white rounded-xl shadow-lg overflow-hidden mb-16 border border-gray-100 hover:shadow-xl transition-shadow duration-300"
+        >
           <div className="md:flex">
-            <div className="md:w-1/2">
+            <div className="md:w-1/2 relative">
               <img
-                className="w-full h-64 object-cover"
+                className="w-full h-full min-h-80 object-cover"
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
                 alt="Team collaborating on project"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-violet-800/30 to-transparent"></div>
             </div>
-            <div className="p-6 md:w-1/2">
-              <h2 className="text-xl font-semibold text-violet-700 mb-3 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
-                </svg>
-                Our Story
-              </h2>
-              <div className="space-y-3 text-gray-600 text-sm">
+            <div className="p-8 md:w-1/2">
+              <div className="flex items-center mb-4">
+                <div className="bg-violet-100 p-2 rounded-lg mr-3">
+                  <FaBookOpen className="text-violet-600 text-xl" />
+                </div>
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  Our Story
+                </h2>
+              </div>
+              <div className="space-y-4 text-gray-600">
                 <p>
-                  Skilled-with-Notes began in 2023 when we noticed students
-                  struggling with disorganized notes. As developers, we saw an
-                  opportunity to create a better solution.
+                  Skilled-with-Notes was born in 2025 from a simple observation:
+                  students everywhere were drowning in disorganized notes,
+                  wasting precious time searching for information instead of
+                  learning.
                 </p>
                 <p>
-                  Our platform combines the efficiency of digital note-taking
-                  with powerful organization tools, helping learners focus on
-                  what matters most - understanding concepts.
+                  As developers who had been through the struggle ourselves, we
+                  envisioned a platform that would combine the flexibility of
+                  digital note-taking with intelligent organization and powerful
+                  search capabilities.
                 </p>
                 <p>
-                  Today, we serve thousands of users worldwide, continuously
-                  improving based on their feedback.
+                  What started as a side project quickly grew into a platform
+                  serving thousands of users worldwide, with features shaped by
+                  our amazing community of learners.
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Team Section */}
-        <h2 className="text-xl font-semibold text-violet-700 mb-5 text-center">
-          Meet Our Frontend Team
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-          {teamMembers.map((member) => (
-            <div
-              key={member.id}
-              className="bg-white rounded-lg shadow-sm p-5 border border-gray-100 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-start space-x-4">
-                <div className="relative">
-                  <img
-                    className="w-14 h-14 rounded-full object-cover border-2 border-violet-100"
-                    src={member.image}
-                    alt={member.name}
-                  />
-                  <div className="absolute -bottom-1 -right-1 bg-violet-600 rounded-full p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3 text-white"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <motion.h2
+            variants={fadeIn}
+            className="text-2xl font-semibold text-gray-800 mb-8 text-center"
+          >
+            Meet <span className="text-violet-600">The Team</span> Behind the
+            Magic
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {teamMembers.map((member) => (
+              <motion.div
+                key={member.id}
+                variants={fadeIn}
+                whileHover={{ y: -5 }}
+                className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-start space-x-5">
+                  <div className="relative flex-shrink-0">
+                    <img
+                      className="w-16 h-16 rounded-full object-cover border-4 border-violet-100"
+                      src={member.image}
+                      alt={member.name}
+                    />
+                    <div className="absolute -bottom-2 -right-2 bg-violet-600 rounded-full p-1.5">
+                      <FaLightbulb className="h-3 w-3 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg text-gray-800">
+                      {member.name}
+                    </h3>
+                    <p className="text-violet-600 text-sm font-medium mb-2">
+                      {member.role}
+                    </p>
+                    <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
+                    <div className="flex space-x-3">
+                      <a
+                        href={member.social.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-500 hover:text-gray-800 transition-colors p-1.5 rounded-full hover:bg-gray-100"
+                        aria-label="GitHub"
+                      >
+                        <FaGithub size={16} />
+                      </a>
+                      <a
+                        href={member.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 transition-colors p-1.5 rounded-full hover:bg-blue-50"
+                        aria-label="LinkedIn"
+                      >
+                        <FaLinkedin size={16} />
+                      </a>
+                      <a
+                        href={member.social.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-400 hover:text-blue-600 transition-colors p-1.5 rounded-full hover:bg-blue-50"
+                        aria-label="Twitter"
+                      >
+                        <FaTwitter size={16} />
+                      </a>
+                      <a
+                        href={`mailto:${member.social.email}`}
+                        className="text-gray-500 hover:text-violet-600 transition-colors p-1.5 rounded-full hover:bg-violet-50"
+                        aria-label="Email"
+                      >
+                        <FaEnvelope size={16} />
+                      </a>
+                    </div>
                   </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-gray-800">{member.name}</h3>
-                  <p className="text-violet-600 text-xs font-medium mb-1">
-                    {member.role}
-                  </p>
-                  <p className="text-gray-600 text-xs mb-2">{member.bio}</p>
-                  <div className="flex space-x-2">
-                    <a
-                      href={member.social.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-500 hover:text-gray-800 transition-colors"
-                      aria-label="GitHub"
-                    >
-                      <FaGithub size={14} />
-                    </a>
-                    <a
-                      href={member.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <FaLinkedin size={14} />
-                    </a>
-                    <a
-                      href={member.social.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-600 transition-colors"
-                      aria-label="Twitter"
-                    >
-                      <FaTwitter size={14} />
-                    </a>
-                    <a
-                      href={`mailto:${member.social.email}`}
-                      className="text-gray-500 hover:text-violet-600 transition-colors"
-                      aria-label="Email"
-                    >
-                      <FaEnvelope size={14} />
-                    </a>
-                  </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Values Section */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <motion.h2
+            variants={fadeIn}
+            className="text-2xl font-semibold text-gray-800 mb-8 text-center"
+          >
+            Our <span className="text-violet-600">Core Values</span>
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "User First",
+                icon: <FaRocket className="text-violet-600 text-2xl" />,
+                description:
+                  "Every feature is designed with real user needs in mind, not just technical possibilities.",
+              },
+              {
+                title: "Simplicity",
+                icon: <FaLightbulb className="text-violet-600 text-2xl" />,
+                description:
+                  "We believe the best tools disappear in use, letting your ideas flow without friction.",
+              },
+              {
+                title: "Continuous Learning",
+                icon: <FaBookOpen className="text-violet-600 text-2xl" />,
+                description:
+                  "We're learners ourselves, constantly improving both our product and our skills.",
+              },
+            ].map((value, index) => (
+              <motion.div
+                key={index}
+                variants={fadeIn}
+                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+              >
+                <div className="bg-violet-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                  {value.icon}
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                <h3 className="font-bold text-lg text-gray-800 mb-2">
+                  {value.title}
+                </h3>
+                <p className="text-gray-600">{value.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Mission Section */}
-        <div className="bg-violet-50 rounded-lg p-5 border border-violet-100">
-          <h2 className="text-lg font-semibold text-violet-700 mb-2 flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13 10V3L4 14h7v7l9-11h-7z"
-              />
-            </svg>
-            Our Mission
-          </h2>
-          <p className="text-gray-700 text-sm">
-            To build the most intuitive, accessible note-taking interface that
-            disappears in use - letting your ideas flow naturally.
-          </p>
-        </div>
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="bg-gradient-to-r from-violet-600 to-blue-500 rounded-xl p-8 text-white"
+        >
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="bg-white/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FaRocket className="text-2xl" />
+            </div>
+            <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
+            <p className="text-lg opacity-90">
+              To revolutionize the way people capture, organize, and retrieve
+              knowledge by building the most intuitive, accessible note-taking
+              platform that adapts to your thinking - not the other way around.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
