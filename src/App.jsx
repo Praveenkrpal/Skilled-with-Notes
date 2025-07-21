@@ -7,22 +7,7 @@ import AboutUsPage from "./components/pages/About";
 import UserRegistration from "./components/pages/UserRegistration";
 import LoginPage from "./components/pages/LoginPage";
 import UserProfile from "./components/pages/UserProfile";
-// import ReactNotes from "./components/subjects/ReactNotes";
-// import HTML from "./components/subjects/HTML";
-// import CSS from "./components/subjects/CSS";
-// import SQL from "./components/subjects/SQL";
-// import JS from "./components/subjects/JS";
-// import Git from "./components/subjects/Git";
-// import Docker from "./components/subjects/Docker";
-// import Security from "./components/subjects/Security";
-// import C from "./components/subjects/C";
-// import Advanced_C from "./components/subjects/Advanced_C";
-// import Express from "./components/subjects/Express";
-// import MongoDB from "./components/subjects/MongoDB";
-// import Node from "./components/subjects/Node";
-// import TypeScript from "./components/subjects/TypeScript";
-// import Python from "./components/subjects/Python";
-// import API from "./components/subjects/API";
+// ----------subject import below----------------------
 import Blog from "./components/pages/Blog";
 import ContactUs from "./components/pages/ContactUs";
 import PageNotFound from "./components/pages/PageNotFound";
@@ -101,169 +86,9 @@ function App() {
           }
         />
 
-        {/* React Notes specific route
-        <Route
-          path="/notes/react"
-          element={
-            <>
-              <ReactNotes />
-            </>
-          }
-        />
+        {/*---- subject routes start here----------*/}
 
-        {/* CSS specific route */}
-        {/* <Route
-          path="/notes/CSS"
-          element={
-            <>
-              <CSS />
-            </>
-          }
-        /> */}
-
-        {/* HTML specific route */}
-        {/* <Route
-          path="/notes/HTML"
-          element={
-            <>
-              <HTML />
-            </>
-          }
-        /> */}
-
-        {/*  SQL specific route */}
-        {/* <Route
-          path="/notes/SQL"
-          element={
-            <>
-              <SQL />
-            </>
-          }
-        /> */}
-
-        {/*  JS specific route */}
-        {/* <Route
-          path="/notes/JS"
-          element={
-            <>
-              <JS />
-            </>
-          }
-        /> */}
-
-        {/*  Git/GitHub specific route */}
-        {/* <Route
-          path="/notes/Git"
-          element={
-            <>
-              <Git />
-            </>
-          }
-        /> */}
-
-        {/*  Docker specific route */}
-        {/* <Route
-          path="/notes/Docker"
-          element={
-            <>
-              <Docker />
-            </>
-          }
-        /> */}
-
-        {/*  security specific route */}
-        {/* <Route
-          path="/notes/Security"
-          element={
-            <>
-              <Security />
-            </>
-          }
-        /> */}
-
-        {/*  mongodb specific route */}
-        {/* <Route
-          path="/notes/MongoDB"
-          element={
-            <>
-              <MongoDB />
-            </>
-          }
-        /> */}
-
-        {/*  C specific route */}
-        {/* <Route
-          path="/notes/C"
-          element={
-            <>
-              <C />
-            </>
-          }
-        /> */}
-
-        {/*  Advanced_C specific route */}
-        {/* <Route
-          path="/notes/Advanced_C"
-          element={
-            <>
-              <Advanced_C />
-            </>
-          }
-        /> */}
-
-        {/*  API specific route */}
-        {/* <Route
-          path="/notes/API"
-          element={
-            <>
-              <API />
-            </>
-          }
-        /> */}
-
-        {/*  Express specific route */}
-        {/* <Route
-          path="/notes/Express"
-          element={
-            <>
-              <Express />
-            </>
-          }
-        />
-        
-        */}
-
-        {/*  Node specific route */}
-        {/* <Route
-          path="/notes/Node"
-          element={
-            <>
-              <Node />
-            </>
-          }
-        /> */}
-
-        {/*  TypeScript specific route */}
-        {/* <Route
-          path="/notes/TypeScript"
-          element={
-            <>
-              <TypeScript />
-            </>
-          }
-        /> */}
-
-        {/*  Python specific route */}
-        {/* <Route
-          path="/notes/Python"
-          element={
-            <>
-              <Python />
-            </>
-          }
-        /> */}
-        
-        {/* ------------------- */}
+        {/* ------subjects routes end here------------- */}
         <Route
           path="/blog"
           element={
@@ -305,4 +130,3 @@ function App() {
 }
 
 export default App;
-
